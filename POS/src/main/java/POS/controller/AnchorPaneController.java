@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import connectivity.ConnectionClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Labeled;
@@ -15,31 +16,39 @@ import javafx.scene.control.TextField;
 public class AnchorPaneController {
 	String number = "";
 	int pass = 0;
+	String query = "select * from kelnerzy WHERE PIN = ";
 
 	@FXML
 	TextField DisplayField;
 
-	PreparedStatement myStmt = null;
-	ResultSet myRs = null;
-
 	public void loginNumber(ActionEvent e) {
 		String digit = ((Labeled) e.getSource()).getText();
 		number = number.concat(digit);
-		DisplayField.appendText("*");
+		if (DisplayField.getLength() < 4) {
+			DisplayField.appendText("*");
+		}
 		pass = Integer.parseInt(number);
-		System.out.println(pass);
 	}
 
-	public Connection getConnection() throws SQLException {
-		Connection con = null;
-		System.out.println("we");
-		con.prepareStatement("use POS");
-		System.out.println("w");
-		return con;
+	public void handleClear() {
+		DisplayField.setText("");
+		number = "";
 	}
+
 	public void handleEnter() throws SQLException {
-		Connection con = null;
-		con.prepareStatement("select * from kelnerzy WHERE PIN=pass");
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		String sql = query.concat(number);
+
+		PreparedStatement preStatement = connection.prepareStatement(sql);
+		ResultSet rs = preStatement.executeQuery(sql);
+
+		while (rs.next()) {
+			int id = rs.getInt("id");
+			String name = rs.getString("kelner");
+
+			System.out.println("Witaj " + name + " Twój nr to: " + id);
+		}
+
 	}
 }
-

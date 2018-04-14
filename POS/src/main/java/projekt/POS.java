@@ -13,23 +13,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class POS extends Application {
-	static String username = "root";
-	static String password = "grzywi19";
-	static String dbUrl = "jdbc:mysql://localhost:3306/pos?autoReconnect=true&useSSL=false";
 	
-	static Connection conn = null;
-	PreparedStatement myStmt = null;
-	ResultSet myRs = null;
-
 	public static void main(String[] args) throws SQLException {
 		launch(args);
-			try {
-				conn = DriverManager.getConnection(dbUrl,username, password);
-				System.out.println("connected");
-			} catch (SQLException e) {
-				System.err.println(e.getMessage());
-				
-			}
+	
 		}
 
 
