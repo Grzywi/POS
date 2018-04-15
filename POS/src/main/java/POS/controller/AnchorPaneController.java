@@ -1,5 +1,6 @@
 package POS.controller;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,8 +11,13 @@ import java.sql.Statement;
 import connectivity.ConnectionClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class AnchorPaneController {
 	String number = "";
@@ -33,6 +39,15 @@ public class AnchorPaneController {
 	public void handleClear() {
 		DisplayField.setText("");
 		number = "";
+	}
+	
+	@FXML
+	public void createAccount(ActionEvent e) throws IOException {
+		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/createAccount.fxml"));
+		Scene createAccountScene = new Scene(createAccountParent);
+		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
+		appStage.setScene(createAccountScene);
+		appStage.show();
 	}
 
 	public void handleEnter() throws SQLException {

@@ -24,7 +24,7 @@ public class POS extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/POS.fxml"));
+		loader.setLocation(this.getClass().getResource("/FXML/POS.fxml"));
 		AnchorPane anchorPane = loader.load();
 
 		Scene scene = new Scene(anchorPane);

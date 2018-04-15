@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="POS.controller.createAccountController">
+   <children>
+      <TextField fx:id="imie" alignment="CENTER" layoutX="226.0" layoutY="32.0" prefHeight="33.0" prefWidth="149.0" promptText="Imie..." />
+      <Button fx:id="enter" mnemonicParsing="false" onAction="#handleEnter" text="ENTER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="270.0" AnchorPane.topAnchor="316.0" />
+      <Button fx:id="b2" mnemonicParsing="false" onAction="#loginNumber" prefHeight="50.0" prefWidth="50.0" text="2" AnchorPane.bottomAnchor="204.0" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="270.0" AnchorPane.topAnchor="136.0" />
+      <Button fx:id="b5" mnemonicParsing="false" onAction="#loginNumber" text="5" AnchorPane.bottomAnchor="144.0" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="270.0" AnchorPane.topAnchor="196.0" />
+      <Button fx:id="b6" mnemonicParsing="false" onAction="#loginNumber" text="6" AnchorPane.bottomAnchor="144.0" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="210.0" AnchorPane.topAnchor="196.0" />
+      <Button fx:id="b7" mnemonicParsing="false" onAction="#loginNumber" text="7" AnchorPane.bottomAnchor="84.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="330.0" AnchorPane.topAnchor="256.0" />
+      <Button fx:id="b8" mnemonicParsing="false" onAction="#loginNumber" text="8" AnchorPane.bottomAnchor="84.0" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="270.0" AnchorPane.topAnchor="256.0" />
+      <Button fx:id="b9" mnemonicParsing="false" onAction="#loginNumber" text="9" AnchorPane.bottomAnchor="84.0" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="210.0" AnchorPane.topAnchor="256.0" />
+      <Button fx:id="b4" mnemonicParsing="false" onAction="#loginNumber" text="4" AnchorPane.bottomAnchor="144.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="330.0" AnchorPane.topAnchor="196.0" />
+      <Button fx:id="b3" mnemonicParsing="false" onAction="#loginNumber" prefHeight="50.0" prefWidth="50.0" text="3" AnchorPane.bottomAnchor="204.0" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="210.0" AnchorPane.topAnchor="136.0" />
+      <Button fx:id="b1" mnemonicParsing="false" onAction="#loginNumber" prefHeight="60.0" prefWidth="60.0" text="1" AnchorPane.bottomAnchor="204.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="330.0" AnchorPane.topAnchor="136.0" />
+      <Button fx:id="clear" mnemonicParsing="false" onAction="#handleClear" text="CLEAR" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="210.0" AnchorPane.topAnchor="316.0" />
+      <TextField fx:id="PIN" alignment="CENTER" layoutX="226.0" layoutY="78.0" prefHeight="33.0" prefWidth="149.0" promptText="PIN..." />
+      <Button fx:id="backToLogin" layoutX="25.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="35.0" prefWidth="87.0" text="powrót">
+         <effect>
+            <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
+         </effect>
+      </Button>
+   </children>
+</AnchorPane>
