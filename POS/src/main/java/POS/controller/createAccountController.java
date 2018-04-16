@@ -3,19 +3,29 @@ package POS.controller;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class createAccountController {
-		public void handleCreateAccount() {
-			
+	
+		int pass;
+		
+		@FXML
+		TextField nameField;
+		TextField pinField;
+		
+		
+		public void loginNumber(ActionEvent e) {
+			String digit = ((Labeled) e.getSource()).getText();
+			nameField.appendText(digit);
 		}
-		public void loginNumber() {
-			
-		}
+		
 		
 		public void handleClear() {
 			
