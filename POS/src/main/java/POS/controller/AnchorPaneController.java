@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -23,6 +24,8 @@ public class AnchorPaneController {
 	String number = "";
 	int pass = 0;
 	String query = "select * from kelnerzy WHERE PIN = ";
+	@FXML
+	Label label = new Label();
 
 	@FXML
 	TextField DisplayField;
@@ -40,7 +43,7 @@ public class AnchorPaneController {
 		DisplayField.setText("");
 		number = "";
 	}
-	
+
 	@FXML
 	public void createAccount(ActionEvent e) throws IOException {
 		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/createAccount.fxml"));
@@ -50,6 +53,7 @@ public class AnchorPaneController {
 		appStage.show();
 	}
 
+	@FXML
 	public void handleEnter() throws SQLException {
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -58,12 +62,12 @@ public class AnchorPaneController {
 		PreparedStatement preStatement = connection.prepareStatement(sql);
 		ResultSet rs = preStatement.executeQuery(sql);
 
-		while (rs.next()) {
+		if (rs.next()) {
 			int id = rs.getInt("id");
 			String name = rs.getString("kelner");
 
-			System.out.println("Witaj " + name + " Twój nr to: " + id);
+		} else {
+			label.setText("Niepoprawny PIN");
 		}
-
 	}
 }
