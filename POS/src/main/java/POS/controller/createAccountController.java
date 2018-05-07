@@ -35,6 +35,7 @@ public class createAccountController {
 	TextField pinField = new TextField();
 
 	@FXML
+	//receiving the focus
 	public void pinFieldClicked() {
 		a = 2;
 	}
@@ -49,8 +50,13 @@ public class createAccountController {
 	public void loginNumber(ActionEvent e) {
 		String digit = ((Labeled) e.getSource()).getText();
 		if (a == 2) {
-			pinField.appendText(digit);
-			pin = pin.concat(digit);
+			if(pinField.getLength()<4) {
+				pinField.appendText(digit);
+				pin = pin.concat(digit);
+			}
+			else {
+				
+			}
 		} else if (a == 1) {
 			nameField.appendText(digit);
 			name = name.concat(digit);
@@ -97,7 +103,7 @@ public class createAccountController {
 			PreparedStatement presStatement = connection.prepareStatement(query2);
 			int Rrs = presStatement.executeUpdate(query2);
 			
-			//after successfull Account creation the user is taken back to the login window
+			//after successful Account creation the user is taken back to the login window
 			Parent createAccountParent = FXMLLoader.load(getClass().getResource("/FXML/POS.fxml"));
 			Scene createAccountScene = new Scene(createAccountParent);
 			Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
