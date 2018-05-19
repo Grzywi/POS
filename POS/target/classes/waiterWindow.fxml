@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="POS.controller.waiterWindowController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="POS.controller.waiterWindowController">
    <children>
       <Label fx:id="waitersName" layoutX="14.0" layoutY="7.0" prefHeight="35.0" prefWidth="65.0" />
+      <Button layoutX="139.0" layoutY="117.0" mnemonicParsing="false" onAction="#handleTable" text="1" />
+      <Button layoutX="255.0" layoutY="117.0" mnemonicParsing="false" onAction="#handleTable" text="2" />
+      <Button layoutX="363.0" layoutY="117.0" mnemonicParsing="false" onAction="#handleTable" text="3" />
+      <Button fx:id="backToLogin" layoutX="36.0" layoutY="326.0" mnemonicParsing="false" onAction="#handleLogOut" prefHeight="35.0" prefWidth="87.0" text="wyloguj">
+         <effect>
+            <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
+         </effect>
+      </Button>
    </children>
 </AnchorPane>

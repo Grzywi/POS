@@ -65,6 +65,8 @@ public class AnchorPaneController {
 			id = rs.getInt("id");
 			name = rs.getString("kelner");
 			System.out.println("zalogowano na konto " + id + " " + name);
+			nameKeeper.setName(rs.getString("kelner"));
+			nameKeeper.setId(rs.getInt("id"));
 
 			// opening waiters view after successful login
 			Parent createAccountParent = FXMLLoader.load(getClass().getResource("/waiterWindow.fxml"));
@@ -76,8 +78,5 @@ public class AnchorPaneController {
 		} else {
 			label.setText("Niepoprawny PIN");
 		}
-	}
-	public String getName() {
-		return name;
 	}
 }

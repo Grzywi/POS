@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tableViewController.DrinksMenuController">
+   <children>
+      <Button fx:id="backToLogin" layoutX="35.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="35.0" prefWidth="87.0" text="powrót">
+         <effect>
+            <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
+         </effect>
+      </Button>
+      <GridPane layoutX="113.0" layoutY="93.0" prefHeight="256.0" prefWidth="460.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj1" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj2" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj3" GridPane.columnIndex="2" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj4" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj6" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj7" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj8" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj9" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+   </children>
+</AnchorPane>

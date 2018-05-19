@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="POS.controller.tableViewController">
+   <children>
+      <Button layoutX="132.0" layoutY="154.0" mnemonicParsing="false" onAction="#pizzaMenu" prefHeight="70.0" prefWidth="70.0" text="Pizza" />
+      <Button layoutX="265.0" layoutY="154.0" mnemonicParsing="false" onAction="#dessertsMenu" prefHeight="70.0" prefWidth="70.0" text="Desery" />
+      <Button layoutX="405.0" layoutY="154.0" mnemonicParsing="false" onAction="#drinksMenu" prefHeight="70.0" prefWidth="70.0" text="Napoje" />
+      <Button fx:id="backToLogin" layoutX="35.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="35.0" prefWidth="87.0" text="powrót">
+         <effect>
+            <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
+         </effect>
+      </Button>
+   </children>
+</AnchorPane>
