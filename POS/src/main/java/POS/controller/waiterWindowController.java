@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.stage.Stage;
 
 public class waiterWindowController implements Initializable {
@@ -30,6 +31,8 @@ public class waiterWindowController implements Initializable {
 		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
 		appStage.setScene(createAccountScene);
 		appStage.show();
+		
+		nameKeeper.setTableNumber(Integer.parseInt(((Labeled) e.getSource()).getText()));
 	}
 	
 	public void handleLogOut(ActionEvent e) throws IOException {

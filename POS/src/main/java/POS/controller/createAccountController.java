@@ -21,7 +21,8 @@ import javafx.stage.Stage;
 public class createAccountController {
 
 	int pass;
-	int a = 1;  // checking actual focus(nameField or pinField)
+	int a = 2; // checking actual focus(nameField or pinField)
+	int b = 1; // checking if char entered is a number
 	String pin = "";
 	String name = "";
 	@FXML
@@ -34,7 +35,7 @@ public class createAccountController {
 	TextField pinField = new TextField();
 
 	@FXML
-	//receiving the focus
+	// receiving the focus
 	public void pinFieldClicked() {
 		a = 2;
 	}
@@ -42,21 +43,26 @@ public class createAccountController {
 	@FXML
 	public void nameFieldClicked() {
 		a = 1;
-
 	}
 
 	@FXML
 	public void loginNumber(ActionEvent e) {
 		String digit = ((Labeled) e.getSource()).getText();
-		if (a == 2) {
-			if(pinField.getLength()<4) {
+		if(digit.matches(".*\\d+.*")){
+			b=1;
+		}
+		else {
+			b=2;
+		}
+		
+		if (a == 2 && b == 1) {
+			if (pinField.getLength() < 4) {
 				pinField.appendText(digit);
 				pin = pin.concat(digit);
 			}
-			else {
-				
-			}
-		} else if (a == 1) {
+		}
+
+		else if (a == 1) {
 			nameField.appendText(digit);
 			name = name.concat(digit);
 		}
@@ -82,7 +88,7 @@ public class createAccountController {
 		int finalPin = Integer.parseInt(pin);
 		String finalName = name;
 
-		//checking whether the PIN is already taken
+		// checking whether the PIN is already taken
 		String query1 = "select * from kelnerzy WHERE PIN = '" + finalPin + "'";
 		ResultSet rs;
 
@@ -94,15 +100,15 @@ public class createAccountController {
 			pinField.setText("");
 			name = "";
 			pin = "";
-			label.setText("Podany PIN jest zajêty");  
+			label.setText("Podany PIN jest zajêty");
 		}
 
 		else {
 			String query2 = "insert INTO kelnerzy (kelner, PIN) VALUES ('" + finalName + "', '" + finalPin + "')";
 			PreparedStatement presStatement = connection.prepareStatement(query2);
 			int Rrs = presStatement.executeUpdate(query2);
-			
-			//after successful Account creation the user is taken back to the login window
+
+			// after successful Account creation the user is taken back to the login window
 			Parent createAccountParent = FXMLLoader.load(getClass().getResource("/FXML/POS.fxml"));
 			Scene createAccountScene = new Scene(createAccountParent);
 			Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
