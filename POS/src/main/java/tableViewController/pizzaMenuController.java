@@ -24,6 +24,7 @@ public class pizzaMenuController {
 	int waiterId = nameKeeper.getId();
 	int tableNumber = nameKeeper.getTableNumber();
 	int productId;
+	int productPrice;
 	
 	@FXML
 	public void handleBack(ActionEvent e) throws IOException {
@@ -44,12 +45,13 @@ public class pizzaMenuController {
 		PreparedStatement preStatement = connection.prepareStatement(productIdQuery);
 		ResultSet rs = preStatement.executeQuery(productIdQuery);
 		
-		//getting id of a product
+		//getting id and price of a product
 		if(rs.next()) {
 			productId = rs.getInt("id");
+			productPrice = rs.getInt("cena");
 		}
 		
-		String insertQuery = "insert into orders (waiterId, stolikId, zamowienie) values ('" + waiterId + "', '" + tableNumber + "', '" + productId + "')";
+		String insertQuery = "insert into orders (waiterId, stolikId, zamowienie, cena) values ('" + waiterId + "', '" + tableNumber + "', '" + productId + "', '" + productPrice + "')";
 		
 		PreparedStatement presStatement = connection.prepareStatement(insertQuery);
 		int Rs = presStatement.executeUpdate(insertQuery);

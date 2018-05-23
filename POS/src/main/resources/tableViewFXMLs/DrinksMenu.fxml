@@ -15,15 +15,15 @@
       </Button>
       <GridPane layoutX="113.0" layoutY="93.0" prefHeight="256.0" prefWidth="460.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj1" />
-            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj2" GridPane.columnIndex="1" />
-            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj3" GridPane.columnIndex="2" />
-            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj4" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj6" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj7" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj8" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="napoj9" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink1" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink2" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink3" GridPane.columnIndex="2" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink4" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink6" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink7" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink8" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink9" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
