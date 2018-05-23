@@ -4,7 +4,7 @@ public class nameKeeper {
 
 	private static String name;
 	private static int id;
-	
+
 	private static int tableNumber;
 	
 	private nameKeeper() {
@@ -27,8 +27,8 @@ public class nameKeeper {
 	public static int getTableNumber() {
 		return tableNumber;
 	}
-	
 	public static void setTableNumber(final int tableNumber) {
 		nameKeeper.tableNumber = tableNumber;
 	}
+	
 }

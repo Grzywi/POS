@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
@@ -19,10 +20,14 @@ import javafx.stage.Stage;
 
 public class AnchorPaneController {
 	int id;
+	int tableNumber;
+	int waitersId;
+	int password;
+
 	String name;
-	String number = "";
-	int pass = 0;
-	String query = "select * from kelnerzy WHERE PIN = ";
+	String PIN = "";
+	String tableButtonName = "table";
+
 	@FXML
 	Label label = new Label();
 
@@ -31,16 +36,15 @@ public class AnchorPaneController {
 
 	public void loginNumber(ActionEvent e) {
 		String digit = ((Labeled) e.getSource()).getText();
-		number = number.concat(digit);
+		PIN = PIN.concat(digit);
 		if (DisplayField.getLength() < 4) {
 			DisplayField.appendText("*");
 		}
-		pass = Integer.parseInt(number);
 	}
 
 	public void handleClear() {
 		DisplayField.setText("");
-		number = "";
+		PIN = "";
 	}
 
 	@FXML
@@ -54,17 +58,21 @@ public class AnchorPaneController {
 
 	@FXML
 	public void handleEnter(ActionEvent e) throws SQLException, IOException {
+
+		password = Integer.parseInt(PIN);
+
+		String checkWaiter = "select * from kelnerzy WHERE PIN = '" + password + "'";
+
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
-		String sql = query.concat(number);
 
-		PreparedStatement preStatement = connection.prepareStatement(sql);
-		ResultSet rs = preStatement.executeQuery(sql);
+		PreparedStatement preStatement = connection.prepareStatement(checkWaiter);
+		ResultSet rs = preStatement.executeQuery(checkWaiter);
 
 		if (rs.next()) {
-			id = rs.getInt("id");
 			name = rs.getString("kelner");
-			System.out.println("zalogowano na konto " + id + " " + name);
+			waitersId = rs.getInt("id");
+			System.out.println("zalogowano na konto " + waitersId + " " + name);
 			nameKeeper.setName(rs.getString("kelner"));
 			nameKeeper.setId(rs.getInt("id"));
 
@@ -74,7 +82,20 @@ public class AnchorPaneController {
 			Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
 			appStage.setScene(createAccountScene);
 			appStage.show();
-			
+
+			String checkOrders = "select * from orders WHERE waiterId = '" + waitersId + "'";
+
+			PreparedStatement presStatement = connection.prepareStatement(checkOrders);
+			ResultSet Rrs = presStatement.executeQuery(checkOrders);
+
+			while (Rrs.next()) {
+				tableNumber = Rrs.getInt("stolikId");
+				tableButtonName = tableButtonName.concat(String.valueOf(tableNumber));
+
+				Button but = (Button) createAccountScene.lookup("#" + tableButtonName);
+				but.setStyle("-fx-background-color: #00ff00");
+				tableButtonName = "table";
+			}
 		} else {
 			label.setText("Niepoprawny PIN");
 		}
