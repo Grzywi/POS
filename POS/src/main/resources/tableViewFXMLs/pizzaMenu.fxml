@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tableViewController.pizzaMenuController">
+<AnchorPane maxHeight="400.0" maxWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tableViewController.pizzaMenuController">
    <children>
       <Button fx:id="backToLogin" layoutX="35.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="35.0" prefWidth="87.0" text="powrót">
          <effect>
             <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
          </effect>
       </Button>
-      <GridPane layoutX="113.0" layoutY="93.0" prefHeight="256.0" prefWidth="460.0">
+      <GridPane layoutX="28.0" layoutY="110.0" prefHeight="256.0" prefWidth="450.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="122.0" AnchorPane.topAnchor="110.0">
          <children>
             <Button mnemonicParsing="false" onAction="#handlePizza" prefHeight="50.0" prefWidth="80.0" text="pizza1" />
             <Button mnemonicParsing="false" onAction="#handlePizza" prefHeight="50.0" prefWidth="80.0" text="pizza2" GridPane.columnIndex="1" />
@@ -36,5 +39,11 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
+      <TableView fx:id="orderTable" layoutX="425.0" layoutY="1.0" prefHeight="400.0" prefWidth="175.0" AnchorPane.rightAnchor="0.0">
+        <columns>
+          <TableColumn fx:id="columnProduct" prefWidth="118.0" text="Produkt" />
+          <TableColumn fx:id="columnPrice" prefWidth="56.0" text="Cena" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

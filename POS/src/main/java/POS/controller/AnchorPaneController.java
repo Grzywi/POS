@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 public class AnchorPaneController {
 	int id;
 	int tableNumber;
-	int waitersId;
+	int waiterId;
 	int password;
 
 	String name;
@@ -60,6 +60,7 @@ public class AnchorPaneController {
 	public void handleEnter(ActionEvent e) throws SQLException, IOException {
 
 		password = Integer.parseInt(PIN);
+		nameKeeper.setPassword(password);
 
 		String checkWaiter = "select * from kelnerzy WHERE PIN = '" + password + "'";
 
@@ -71,8 +72,8 @@ public class AnchorPaneController {
 
 		if (rs.next()) {
 			name = rs.getString("kelner");
-			waitersId = rs.getInt("id");
-			System.out.println("zalogowano na konto " + waitersId + " " + name);
+			waiterId = rs.getInt("id");
+			System.out.println("zalogowano na konto " + waiterId + " " + name);
 			nameKeeper.setName(rs.getString("kelner"));
 			nameKeeper.setId(rs.getInt("id"));
 
@@ -83,7 +84,7 @@ public class AnchorPaneController {
 			appStage.setScene(createAccountScene);
 			appStage.show();
 
-			String checkOrders = "select * from orders WHERE waiterId = '" + waitersId + "'";
+			String checkOrders = "select * from orders WHERE waiterId = '" + waiterId + "'";
 
 			PreparedStatement presStatement = connection.prepareStatement(checkOrders);
 			ResultSet Rrs = presStatement.executeQuery(checkOrders);

@@ -6,6 +6,7 @@ public class nameKeeper {
 	private static int id;
 
 	private static int tableNumber;
+	private static int password;
 	
 	private nameKeeper() {
 	}
@@ -31,4 +32,11 @@ public class nameKeeper {
 		nameKeeper.tableNumber = tableNumber;
 	}
 	
+	public static int getPassword() {
+		return password;
+	}
+	
+	public static void setPassword(final int password) {
+		nameKeeper.password = password;
+	}
 }

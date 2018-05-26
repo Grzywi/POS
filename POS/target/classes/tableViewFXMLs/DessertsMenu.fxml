@@ -13,7 +13,7 @@
             <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
          </effect>
       </Button>
-      <GridPane layoutX="113.0" layoutY="93.0" prefHeight="256.0" prefWidth="460.0">
+      <GridPane layoutX="113.0" layoutY="93.0" prefHeight="256.0" prefWidth="450.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="122.0" AnchorPane.topAnchor="110.0">
          <children>
             <Button mnemonicParsing="false" onAction="#handleDessert" prefHeight="50.0" prefWidth="80.0" text="dessert1" />
             <Button mnemonicParsing="false" onAction="#handleDessert" prefHeight="50.0" prefWidth="80.0" text="dessert2" GridPane.columnIndex="1" />
