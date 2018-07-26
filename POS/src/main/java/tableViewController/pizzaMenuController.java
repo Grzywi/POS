@@ -13,6 +13,7 @@ import POS.controller.nameKeeper;
 import connectivity.ConnectionClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,16 +23,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class pizzaMenuController implements Initializable {
 
+	String waiterName = nameKeeper.getName();
 	int waiterId = nameKeeper.getId();
 	int tableNumber = nameKeeper.getTableNumber();
 	int productId;
 	int productPrice;
+
+	final PseudoClass greenPS = PseudoClass.getPseudoClass("green");
+	final PseudoClass yellowPS = PseudoClass.getPseudoClass("yellow");
 
 	@FXML
 	private TableView<OrderTable> orderTable;
@@ -39,6 +46,8 @@ public class pizzaMenuController implements Initializable {
 	private TableColumn<OrderTable, String> columnProduct;
 	@FXML
 	private TableColumn<OrderTable, Integer> columnPrice;
+	@FXML
+	private TableColumn<OrderTable, String> columnWaiter;
 
 	private ObservableList<OrderTable> data;
 
@@ -58,15 +67,23 @@ public class pizzaMenuController implements Initializable {
 				String getProductName = "select * from menu WHERE id = '" + res.getInt("zamowienie") + "'";
 				PreparedStatement pStatement = connection.prepareStatement(getProductName);
 				ResultSet result = pStatement.executeQuery(getProductName);
-				while(result.next()) {
-					data.add(new OrderTable(result.getString("produkt"), res.getInt("cena")));
+				while (result.next()) {
+					String getWaiterName = "select * from kelnerzy WHERE id = '" + res.getInt("waiterId") + "'";
+					PreparedStatement prrStatement = connection.prepareStatement(getWaiterName);
+					ResultSet resultWaiterName = prrStatement.executeQuery(getWaiterName);
+					while (resultWaiterName.next()) {
+						data.add(new OrderTable(result.getString("produkt"), res.getInt("cena"),
+								resultWaiterName.getString("kelner")));
+					}
 				}
 			}
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+		
 		columnProduct.setCellValueFactory(new PropertyValueFactory<>("product"));
 		columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+		columnWaiter.setCellValueFactory(new PropertyValueFactory<>("waiter"));
 
 		orderTable.setItems(null);
 		orderTable.setItems(data);
@@ -102,7 +119,6 @@ public class pizzaMenuController implements Initializable {
 
 		PreparedStatement presStatement = connection.prepareStatement(insertQuery);
 		int Rs = presStatement.executeUpdate(insertQuery);
-
 		data = FXCollections.observableArrayList();
 
 		// checking table orders
@@ -114,15 +130,22 @@ public class pizzaMenuController implements Initializable {
 			String getProductName = "select * from menu WHERE id = '" + res.getInt("zamowienie") + "'";
 			PreparedStatement pStatement = connection.prepareStatement(getProductName);
 			ResultSet result = pStatement.executeQuery(getProductName);
-			while(result.next()) {
-				data.add(new OrderTable(result.getString("produkt"), res.getInt("cena")));
+			while (result.next()) {
+				String getWaiterName = "select * from kelnerzy WHERE id = '" + res.getInt("waiterId") + "'";
+				PreparedStatement prrStatement = connection.prepareStatement(getWaiterName);
+				ResultSet resultWaiterName = prrStatement.executeQuery(getWaiterName);
+				while (resultWaiterName.next()) {
+					data.add(new OrderTable(result.getString("produkt"), res.getInt("cena"),
+							resultWaiterName.getString("kelner")));					
+					///// zamykanie while pod spodem
+				}
 			}
 		}
 
-	columnProduct.setCellValueFactory(new PropertyValueFactory<>("product"));
-	columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-	orderTable.setItems(null);
-	orderTable.setItems(data);
+		columnProduct.setCellValueFactory(new PropertyValueFactory<>("product"));
+		columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+		columnWaiter.setCellValueFactory(new PropertyValueFactory<>("waiter"));
+		orderTable.setItems(null);
+		orderTable.setItems(data);
 	}
 }

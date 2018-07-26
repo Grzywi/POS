@@ -16,7 +16,7 @@
             <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
          </effect>
       </Button>
-      <GridPane layoutX="28.0" layoutY="110.0" prefHeight="256.0" prefWidth="450.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="122.0" AnchorPane.topAnchor="110.0">
+      <GridPane layoutX="28.0" layoutY="111.0" prefHeight="256.0" prefWidth="400.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="111.0">
          <children>
             <Button mnemonicParsing="false" onAction="#handlePizza" prefHeight="50.0" prefWidth="80.0" text="pizza1" />
             <Button mnemonicParsing="false" onAction="#handlePizza" prefHeight="50.0" prefWidth="80.0" text="pizza2" GridPane.columnIndex="1" />
@@ -39,10 +39,11 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <TableView fx:id="orderTable" layoutX="425.0" layoutY="1.0" prefHeight="400.0" prefWidth="175.0" AnchorPane.rightAnchor="0.0">
+      <TableView fx:id="orderTable" layoutX="425.0" prefHeight="401.0" prefWidth="200.0" AnchorPane.rightAnchor="0.0">
         <columns>
-          <TableColumn fx:id="columnProduct" prefWidth="118.0" text="Produkt" />
+          <TableColumn fx:id="columnProduct" prefWidth="78.0" text="Produkt" />
           <TableColumn fx:id="columnPrice" prefWidth="56.0" text="Cena" />
+            <TableColumn fx:id="columnWaiter" prefWidth="65.0" text="Kelner" />
         </columns>
       </TableView>
    </children>

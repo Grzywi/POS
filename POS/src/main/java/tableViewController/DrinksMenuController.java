@@ -50,10 +50,5 @@ public class DrinksMenuController {
 			productId = rs.getInt("id");
 			productPrice = rs.getInt("cena");
 		}
-		
-		String insertQuery = "insert into orders (waiterId, stolikId, zamowienie, cena) values ('" + waiterId + "', '" + tableNumber + "', '" + productId + "', '" + productPrice + "')";
-		
-		PreparedStatement presStatement = connection.prepareStatement(insertQuery);
-		int Rs = presStatement.executeUpdate(insertQuery);
 	}
 }

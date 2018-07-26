@@ -23,10 +23,12 @@ public class AnchorPaneController {
 	int tableNumber;
 	int waiterId;
 	int password;
-
+	
+	String isGreen = "-fx-background-color: #00ff00";
 	String name;
 	String PIN = "";
 	String tableButtonName = "table";
+
 
 	@FXML
 	Label label = new Label();
@@ -84,7 +86,7 @@ public class AnchorPaneController {
 			appStage.setScene(createAccountScene);
 			appStage.show();
 
-			String checkOrders = "select * from orders WHERE waiterId = '" + waiterId + "'";
+			String checkOrders = "select * from orders";
 
 			PreparedStatement presStatement = connection.prepareStatement(checkOrders);
 			ResultSet Rrs = presStatement.executeQuery(checkOrders);
@@ -92,10 +94,21 @@ public class AnchorPaneController {
 			while (Rrs.next()) {
 				tableNumber = Rrs.getInt("stolikId");
 				tableButtonName = tableButtonName.concat(String.valueOf(tableNumber));
-
-				Button but = (Button) createAccountScene.lookup("#" + tableButtonName);
-				but.setStyle("-fx-background-color: #00ff00");
-				tableButtonName = "table";
+				
+				if (Rrs.getInt("waiterId") == waiterId) {
+					Button but = (Button) createAccountScene.lookup("#" + tableButtonName);
+					but.setStyle("-fx-background-color: #00ff00");
+					tableButtonName = "table";
+				} else {
+					Button but = (Button) createAccountScene.lookup("#" + tableButtonName);
+					if(but.getStyle().equals(isGreen)) {
+						tableButtonName = "table";
+					}
+					else{
+						but.setStyle("-fx-background-color: #f4ff31");
+						tableButtonName = "table";
+					}
+				}
 			}
 		} else {
 			label.setText("Niepoprawny PIN");

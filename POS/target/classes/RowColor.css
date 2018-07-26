@@ -1,0 +1,13 @@
+
+.table-row-cell:green 
+{
+    -fx-background-color: #10c900; 
+}
+
+/*
+Pseudo class 'down' will change the row background 
+color to red when activated
+*/
+.table-row-cell:yellow {
+    -fx-background-color: #cee40a;
+}
