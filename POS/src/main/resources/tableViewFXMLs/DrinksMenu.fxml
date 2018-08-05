@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tableViewController.DrinksMenuController">
+<AnchorPane maxHeight="400.0" maxWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tableViewController.DrinksMenuController">
    <children>
       <Button fx:id="backToLogin" layoutX="35.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="35.0" prefWidth="87.0" text="powrót">
          <effect>
             <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
          </effect>
       </Button>
-      <GridPane layoutX="113.0" layoutY="93.0" prefHeight="256.0" prefWidth="450.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="122.0" AnchorPane.topAnchor="110.0">
+      <GridPane layoutX="28.0" layoutY="111.0" prefHeight="256.0" prefWidth="400.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="111.0">
          <children>
             <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink1" />
             <Button mnemonicParsing="false" onAction="#handleDrink" prefHeight="50.0" prefWidth="80.0" text="drink2" GridPane.columnIndex="1" />
@@ -36,5 +37,25 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
+      <TableView fx:id="orderTable" layoutX="425.0" prefHeight="270.0" prefWidth="200.0" AnchorPane.rightAnchor="0.0">
+        <columns>
+          <TableColumn fx:id="columnProduct" prefWidth="78.0" text="Produkt" />
+          <TableColumn fx:id="columnPrice" prefWidth="56.0" text="Cena" />
+            <TableColumn fx:id="columnWaiterID" prefWidth="65.0" text="ID kelnera" />
+        </columns>
+      </TableView>
+      <Label fx:id="sumaTextLabel" alignment="CENTER" layoutX="400.0" layoutY="270.0" prefHeight="35.0" prefWidth="87.0" text="Suma:" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="sumaNumberLabel" alignment="CENTER" layoutX="485.0" layoutY="271.0" prefHeight="35.0" prefWidth="118.0" text="0 PLN">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Separator layoutX="400.0" layoutY="310.0" prefWidth="200.0" />
+      <Button fx:id="UsunRachunek" layoutX="405.0" layoutY="313.0" mnemonicParsing="false" onAction="#handleUsun" prefHeight="35.0" prefWidth="100.0" text="Usuń rachunek" />
+      <Button fx:id="DrukujParagon" layoutX="505.0" layoutY="313.0" mnemonicParsing="false" onAction="#handleDrukuj" prefHeight="35.0" prefWidth="100.0" text="Drukuj paragon" />
    </children>
 </AnchorPane>

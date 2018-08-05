@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import connectivity.ConnectionClass;
@@ -67,6 +68,22 @@ public class waiterWindowController implements Initializable {
 	}
 
 
+	public void handleCloseShift(ActionEvent e) throws IOException, SQLException {
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		
+		String closeShift = "delete from closedOrders WHERE kelner = '"+ waiterId +"' ";
+		PreparedStatement pstm = connection.prepareStatement(closeShift);
+		int rs = pstm.executeUpdate(closeShift);
+		
+		
+		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/FXML/POS.fxml"));
+		Scene createAccountScene = new Scene(createAccountParent);
+		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
+		appStage.setScene(createAccountScene);
+		appStage.show();
+	}
+	
 	public void handleTable(ActionEvent e) throws IOException {
 		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/tableView.fxml"));
 		Scene createAccountScene = new Scene(createAccountParent);

@@ -45,6 +45,7 @@ public class tableViewController {
 	public void drinksMenu(ActionEvent e) throws IOException {
 		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/tableViewFXMLs/DrinksMenu.fxml"));
 		Scene createAccountScene = new Scene(createAccountParent);
+		createAccountScene.getStylesheets().add("RowColor.css");
 		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
 		appStage.setScene(createAccountScene);
 		appStage.show();
@@ -54,6 +55,7 @@ public class tableViewController {
 	public void dessertsMenu(ActionEvent e) throws IOException {
 		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/tableViewFXMLs/DessertsMenu.fxml"));
 		Scene createAccountScene = new Scene(createAccountParent);
+		createAccountScene.getStylesheets().add("RowColor.css");
 		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
 		appStage.setScene(createAccountScene);
 		appStage.show();

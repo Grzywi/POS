@@ -124,7 +124,7 @@ public class pizzaMenuController implements Initializable {
 	}
 
 	@FXML
-	public void handleDrukuj() throws SQLException {
+	public void handleDrukuj(ActionEvent e) throws SQLException, IOException {
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		data = FXCollections.observableArrayList();
@@ -151,7 +151,12 @@ public class pizzaMenuController implements Initializable {
 		orderTable.setItems(data);
 		suma = 0;
 		sumaNumberLabel.setText(String.valueOf(suma) + " PLN");
-
+		
+		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/waiterWindow.fxml"));
+		Scene createAccountScene = new Scene(createAccountParent);
+		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
+		appStage.setScene(createAccountScene);
+		appStage.show();
 	}
 
 	@FXML

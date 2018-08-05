@@ -12,7 +12,7 @@
       <Button fx:id="table1" layoutX="139.0" layoutY="117.0" mnemonicParsing="false" onAction="#handleTable" text="1" />
       <Button fx:id="table2" layoutX="255.0" layoutY="117.0" mnemonicParsing="false" onAction="#handleTable" text="2" />
       <Button fx:id="table3" layoutX="363.0" layoutY="117.0" mnemonicParsing="false" onAction="#handleTable" text="3" />
-      <Button fx:id="backToLogin" layoutX="36.0" layoutY="326.0" mnemonicParsing="false" onAction="#handleLogOut" prefHeight="35.0" prefWidth="87.0" text="wyloguj">
+      <Button fx:id="backToLogin" layoutX="36.0" layoutY="326.0" mnemonicParsing="false" onAction="#handleLogOut" prefHeight="35.0" prefWidth="87.0" text="wyloguj" AnchorPane.leftAnchor="36.0">
          <effect>
             <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
          </effect>
@@ -23,5 +23,10 @@
             <TableColumn fx:id="columnCharge" prefWidth="113.0" text="Kwota" />
          </columns>
       </TableView>
+      <Button fx:id="backToLogin1" layoutX="475.0" layoutY="326.0" mnemonicParsing="false" onAction="#handleCloseShift" prefHeight="35.0" prefWidth="113.0" text="Zakończ Zmianę" AnchorPane.rightAnchor="36.0">
+         <effect>
+            <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
+         </effect>
+      </Button>
    </children>
 </AnchorPane>
