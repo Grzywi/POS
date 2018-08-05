@@ -9,12 +9,12 @@ public class OrderTable {
 	
 	private final StringProperty product;
 	private final IntegerProperty price;
-	private final StringProperty waiter;
+	private final IntegerProperty waiterID;
 	
-	public OrderTable(String product, int price, String waiter) {
+	public OrderTable(String product, int price, int waiterID) {
 		this.product = new SimpleStringProperty(product);
 		this.price = new SimpleIntegerProperty(price);
-		this.waiter = new SimpleStringProperty(waiter);
+		this.waiterID = new SimpleIntegerProperty(waiterID);
 	}
 
 	public String getProduct() {
@@ -41,15 +41,15 @@ public class OrderTable {
 		return price;
 	}
 	
-	public String getWaiter() {
-		return waiter.get();
+	public Integer getWaiterID() {
+		return waiterID.get();
 	}
 	
-	public void setWaiter(String value) {
-		waiter.set(value);
+	public void setWaiterID(Integer value) {
+		waiterID.set(value);
 	}
 	
-	public StringProperty waiterProperty() {
-		return waiter;
+	public IntegerProperty waiterIDProperty() {
+		return waiterID;
 	}
 }

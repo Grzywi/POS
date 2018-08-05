@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -36,9 +37,13 @@ public class pizzaMenuController implements Initializable {
 	int tableNumber = nameKeeper.getTableNumber();
 	int productId;
 	int productPrice;
+	int suma;
+	int tableCharge;
 
-	final PseudoClass greenPS = PseudoClass.getPseudoClass("green");
-	final PseudoClass yellowPS = PseudoClass.getPseudoClass("yellow");
+	@FXML
+	Label sumaTextLabel;
+	@FXML
+	Label sumaNumberLabel;
 
 	@FXML
 	private TableView<OrderTable> orderTable;
@@ -47,13 +52,14 @@ public class pizzaMenuController implements Initializable {
 	@FXML
 	private TableColumn<OrderTable, Integer> columnPrice;
 	@FXML
-	private TableColumn<OrderTable, String> columnWaiter;
+	private TableColumn<OrderTable, Integer> columnWaiterID;
 
 	private ObservableList<OrderTable> data;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
+
 			ConnectionClass connectionClass = new ConnectionClass();
 			Connection connection = connectionClass.getConnection();
 			data = FXCollections.observableArrayList();
@@ -68,25 +74,84 @@ public class pizzaMenuController implements Initializable {
 				PreparedStatement pStatement = connection.prepareStatement(getProductName);
 				ResultSet result = pStatement.executeQuery(getProductName);
 				while (result.next()) {
-					String getWaiterName = "select * from kelnerzy WHERE id = '" + res.getInt("waiterId") + "'";
-					PreparedStatement prrStatement = connection.prepareStatement(getWaiterName);
-					ResultSet resultWaiterName = prrStatement.executeQuery(getWaiterName);
-					while (resultWaiterName.next()) {
-						data.add(new OrderTable(result.getString("produkt"), res.getInt("cena"),
-								resultWaiterName.getString("kelner")));
-					}
+
+					data.add(new OrderTable(result.getString("produkt"), res.getInt("cena"), res.getInt("waiterId")));
+					suma += res.getInt("cena");
+					sumaNumberLabel.setText(String.valueOf(suma) + " PLN");
 				}
 			}
 		} catch (Exception e) {
 			System.err.println(e);
 		}
-		
+
 		columnProduct.setCellValueFactory(new PropertyValueFactory<>("product"));
 		columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-		columnWaiter.setCellValueFactory(new PropertyValueFactory<>("waiter"));
+		columnWaiterID.setCellValueFactory(new PropertyValueFactory<>("waiterID"));
 
 		orderTable.setItems(null);
 		orderTable.setItems(data);
+
+		PseudoClass yellowPS = PseudoClass.getPseudoClass("yellow");
+		PseudoClass greenPS = PseudoClass.getPseudoClass("green");
+
+		orderTable.setRowFactory(param -> new TableRow<OrderTable>() {
+			@Override
+			protected void updateItem(OrderTable item, boolean empty) {
+				super.updateItem(item, empty);
+				pseudoClassStateChanged(greenPS, (!empty) && item.getWaiterID() == waiterId);
+				pseudoClassStateChanged(yellowPS, (!empty) && item.getWaiterID() != waiterId);
+			}
+		});
+
+	}
+
+	@FXML
+	public void handleUsun() throws SQLException {
+
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		data = FXCollections.observableArrayList();
+
+		String deleteTableOrders = "delete from orders WHERE stolikId = '" + tableNumber + "'";
+		PreparedStatement Pstm = connection.prepareStatement(deleteTableOrders);
+		int rss = Pstm.executeUpdate(deleteTableOrders);
+
+		orderTable.setItems(null);
+		orderTable.setItems(data);
+		suma = 0;
+		sumaNumberLabel.setText(String.valueOf(suma) + " PLN");
+
+	}
+
+	@FXML
+	public void handleDrukuj() throws SQLException {
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		data = FXCollections.observableArrayList();
+
+		String getTableOrders = "select * from orders WHERE stolikId = '" + tableNumber + "'";
+		PreparedStatement Prestm = connection.prepareStatement(getTableOrders);
+		ResultSet rs = Prestm.executeQuery(getTableOrders);
+		while (rs.next()) {
+			tableCharge += rs.getInt("cena");
+		}
+
+		String insertIntoClosedOrders = "insert into closedOrders (kelner, stolik, suma) values ('" + waiterId + "',  '"
+				+ tableNumber + "', '" + tableCharge + "')";
+		PreparedStatement pstm = connection.prepareStatement(insertIntoClosedOrders);
+		int resu = pstm.executeUpdate(insertIntoClosedOrders);
+
+		String deleteTableOrders = "delete from orders WHERE stolikId = '" + tableNumber + "'";
+		PreparedStatement Pstm = connection.prepareStatement(deleteTableOrders);
+		int rss = Pstm.executeUpdate(deleteTableOrders);
+
+		System.out.println("Suma: " + suma + " PLN");
+
+		orderTable.setItems(null);
+		orderTable.setItems(data);
+		suma = 0;
+		sumaNumberLabel.setText(String.valueOf(suma) + " PLN");
+
 	}
 
 	@FXML
@@ -112,6 +177,9 @@ public class pizzaMenuController implements Initializable {
 		while (rs.next()) {
 			productId = rs.getInt("id");
 			productPrice = rs.getInt("cena");
+
+			suma += rs.getInt("cena");
+			sumaNumberLabel.setText(String.valueOf(suma) + " PLN");
 		}
 
 		String insertQuery = "insert into orders (waiterId, stolikId, zamowienie, cena) values ('" + waiterId + "', '"
@@ -131,20 +199,15 @@ public class pizzaMenuController implements Initializable {
 			PreparedStatement pStatement = connection.prepareStatement(getProductName);
 			ResultSet result = pStatement.executeQuery(getProductName);
 			while (result.next()) {
-				String getWaiterName = "select * from kelnerzy WHERE id = '" + res.getInt("waiterId") + "'";
-				PreparedStatement prrStatement = connection.prepareStatement(getWaiterName);
-				ResultSet resultWaiterName = prrStatement.executeQuery(getWaiterName);
-				while (resultWaiterName.next()) {
-					data.add(new OrderTable(result.getString("produkt"), res.getInt("cena"),
-							resultWaiterName.getString("kelner")));					
-					///// zamykanie while pod spodem
-				}
+
+				data.add(new OrderTable(result.getString("produkt"), res.getInt("cena"), res.getInt("waiterID")));
+
 			}
 		}
 
 		columnProduct.setCellValueFactory(new PropertyValueFactory<>("product"));
 		columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-		columnWaiter.setCellValueFactory(new PropertyValueFactory<>("waiter"));
+		columnWaiterID.setCellValueFactory(new PropertyValueFactory<>("waiterID"));
 		orderTable.setItems(null);
 		orderTable.setItems(data);
 	}

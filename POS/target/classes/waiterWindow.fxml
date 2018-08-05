@@ -17,5 +17,11 @@
             <ColorAdjust brightness="-0.3" contrast="0.09" saturation="-0.84" />
          </effect>
       </Button>
+      <TableView fx:id="myBills" layoutX="450.0" prefHeight="252.0" prefWidth="162.0">
+         <columns>
+            <TableColumn fx:id="columnTable" prefWidth="72.0" text="Stolik" />
+            <TableColumn fx:id="columnCharge" prefWidth="113.0" text="Kwota" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>
