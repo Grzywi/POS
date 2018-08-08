@@ -5,30 +5,29 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import connectivity.ConnectionClass;
+
+import POS.scene.SceneManager;
+import connectivity.ConnectionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class AnchorPaneController {
 	int id;
 	int tableNumber;
 	int waiterId;
 	int password;
-	
+
 	String isGreen = "-fx-background-color: #00ff00";
 	String name;
 	String PIN = "";
 	String tableButtonName = "table";
 
+	private final SceneManager sceneManager = new SceneManager();
 
 	@FXML
 	Label label = new Label();
@@ -50,24 +49,20 @@ public class AnchorPaneController {
 	}
 
 	@FXML
-	public void createAccount(ActionEvent e) throws IOException {
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/createAccount.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+	public void createAccountScene(final ActionEvent actionEvent) throws IOException {
+		final Scene accountScene = sceneManager.createScene("/createAccount.fxml");
+		sceneManager.showStage(actionEvent, accountScene);
 	}
 
 	@FXML
-	public void handleEnter(ActionEvent e) throws SQLException, IOException {
+	public void handleEnter(final ActionEvent actionEvent) throws SQLException, IOException {
 
 		password = Integer.parseInt(PIN);
 		nameKeeper.setPassword(password);
 
 		String checkWaiter = "select * from kelnerzy WHERE PIN = '" + password + "'";
 
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
+		Connection connection = ConnectionManager.getConnection();
 
 		PreparedStatement preStatement = connection.prepareStatement(checkWaiter);
 		ResultSet rs = preStatement.executeQuery(checkWaiter);
@@ -80,11 +75,8 @@ public class AnchorPaneController {
 			nameKeeper.setId(rs.getInt("id"));
 
 			// opening waiters view after successful login
-			Parent createAccountParent = FXMLLoader.load(getClass().getResource("/waiterWindow.fxml"));
-			Scene createAccountScene = new Scene(createAccountParent);
-			Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-			appStage.setScene(createAccountScene);
-			appStage.show();
+			Scene waiterWindowScene = sceneManager.createScene("/waiterWindow.fxml");
+			sceneManager.showStage(actionEvent, waiterWindowScene);
 
 			String checkOrders = "select * from orders";
 
@@ -94,17 +86,16 @@ public class AnchorPaneController {
 			while (Rrs.next()) {
 				tableNumber = Rrs.getInt("stolikId");
 				tableButtonName = tableButtonName.concat(String.valueOf(tableNumber));
-				
+
 				if (Rrs.getInt("waiterId") == waiterId) {
-					Button but = (Button) createAccountScene.lookup("#" + tableButtonName);
+					Button but = (Button) waiterWindowScene.lookup("#" + tableButtonName);
 					but.setStyle("-fx-background-color: #00ff00");
 					tableButtonName = "table";
 				} else {
-					Button but = (Button) createAccountScene.lookup("#" + tableButtonName);
-					if(but.getStyle().equals(isGreen)) {
+					Button but = (Button) waiterWindowScene.lookup("#" + tableButtonName);
+					if (but.getStyle().equals(isGreen)) {
 						tableButtonName = "table";
-					}
-					else{
+					} else {
 						but.setStyle("-fx-background-color: #f4ff31");
 						tableButtonName = "table";
 					}

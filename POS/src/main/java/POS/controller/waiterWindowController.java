@@ -8,31 +8,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import connectivity.ConnectionClass;
+import POS.scene.SceneManager;
+import connectivity.ConnectionManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 public class waiterWindowController implements Initializable {
-	
-	@FXML Label waitersName;
+
+	@FXML
+	Label waitersName;
 
 	String tableButtonName = "table";
 	int tableNumber;
 	int waiterId = nameKeeper.getId();
-	
+
 	@FXML
 	private TableView<myBillsTV> myBills;
 	@FXML
@@ -42,12 +40,14 @@ public class waiterWindowController implements Initializable {
 
 	private ObservableList<myBillsTV> data;
 
+	private final SceneManager sceneManager = new SceneManager();
+
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 		waitersName.setText(nameKeeper.getName() + "\n" + "id: " + nameKeeper.getId());
 		try {
-			ConnectionClass connectionClass = new ConnectionClass();
-			Connection connection = connectionClass.getConnection();
+
+			Connection connection = ConnectionManager.getConnection();
 			data = FXCollections.observableArrayList();
 
 			String checkTable = "select * from closedOrders WHERE kelner = '" + waiterId + "'  ";
@@ -67,38 +67,28 @@ public class waiterWindowController implements Initializable {
 		myBills.setItems(data);
 	}
 
+	public void handleCloseShift(final ActionEvent actionEvent) throws IOException, SQLException {
 
-	public void handleCloseShift(ActionEvent e) throws IOException, SQLException {
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
-		
-		String closeShift = "delete from closedOrders WHERE kelner = '"+ waiterId +"' ";
+		Connection connection = ConnectionManager.getConnection();
+
+		String closeShift = "delete from closedOrders WHERE kelner = '" + waiterId + "' ";
 		PreparedStatement pstm = connection.prepareStatement(closeShift);
-		int rs = pstm.executeUpdate(closeShift);
-		
-		
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/FXML/POS.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
-	}
-	
-	public void handleTable(ActionEvent e) throws IOException {
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/tableView.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+		pstm.executeUpdate(closeShift);
 
-		nameKeeper.setTableNumber(Integer.parseInt(((Labeled) e.getSource()).getText()));
+		final Scene PosScene = sceneManager.createScene("/FXML/POS.fxml");
+		sceneManager.showStage(actionEvent, PosScene);
+
 	}
 
-	public void handleLogOut(ActionEvent e) throws IOException {
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/FXML/POS.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+	public void handleTable(final ActionEvent actionEvent) throws IOException {
+		final Scene tableViewScene = sceneManager.createScene("/tableView.fxml");
+		sceneManager.showStage(actionEvent, tableViewScene);
+
+		nameKeeper.setTableNumber(Integer.parseInt(((Labeled) actionEvent.getSource()).getText()));
+	}
+
+	public void handleLogOut(final ActionEvent actionEvent) throws IOException {
+		final Scene PosScene = sceneManager.createScene("/FXML/POS.fxml");
+		sceneManager.showStage(actionEvent, PosScene);
 	}
 }

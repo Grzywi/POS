@@ -1,76 +1,55 @@
 package POS.controller;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
-import connectivity.ConnectionClass;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import POS.scene.SceneManager;
+import connectivity.ConnectionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 public class tableViewController {
 
 	int tableNumber;
 	int waiterId = nameKeeper.getId();
 	String tableButtonName = "table";
-	String isGreen = "-fx-background-color: #00ff00";
+	String green = "-fx-background-color: #00ff00";
 
+	private final SceneManager sceneManager = new SceneManager();
+	
 	@FXML
-	public void pizzaMenu(ActionEvent e) throws IOException {
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/tableViewFXMLs/pizzaMenu.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		createAccountScene.getStylesheets().add("RowColor.css");
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+	public void pizzaMenu(final ActionEvent actionEvent) throws IOException {
+		final Scene pizzaMenuScene = sceneManager.createScene("/tableViewFXMLs/pizzaMenu.fxml");
+		sceneManager.showStage(actionEvent, pizzaMenuScene);
+		pizzaMenuScene.getStylesheets().add("RowColor.css");
 	}
 
 	@FXML
-	public void drinksMenu(ActionEvent e) throws IOException {
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/tableViewFXMLs/DrinksMenu.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		createAccountScene.getStylesheets().add("RowColor.css");
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+	public void drinksMenu(final ActionEvent actionEvent) throws IOException {
+		final Scene drinkMenuScene = sceneManager.createScene("/tableViewFXMLs/DrinksMenu.fxml");
+		sceneManager.showStage(actionEvent, drinkMenuScene);
+		drinkMenuScene.getStylesheets().add("RowColor.css");
+		
 	}
 
 	@FXML
-	public void dessertsMenu(ActionEvent e) throws IOException {
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/tableViewFXMLs/DessertsMenu.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		createAccountScene.getStylesheets().add("RowColor.css");
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+	public void dessertsMenu(final ActionEvent actionEvent) throws IOException {
+		final Scene dessertMenuScene = sceneManager.createScene("/tableViewFXMLs/DessertsMenu.fxml");
+		sceneManager.showStage(actionEvent, dessertMenuScene);
+		dessertMenuScene.getStylesheets().add("RowColor.css");
 	}
 
 	@FXML
-	public void handleBack(ActionEvent e) throws IOException, SQLException {
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/waiterWindow.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+	public void handleBack(final ActionEvent actionEvent) throws IOException, SQLException {
+		final Scene waiterWindowScene = sceneManager.createScene("/waiterWindow.fxml");
+		sceneManager.showStage(actionEvent, waiterWindowScene);
 
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
+		Connection connection = ConnectionManager.getConnection();
 
 		String checkOrders = "select * from orders";
 
@@ -83,12 +62,14 @@ public class tableViewController {
 			tableButtonName = tableButtonName.concat(String.valueOf(tableNumber));
 
 			if (Rrs.getInt("waiterId") == waiterId) {
-				Button but = (Button) createAccountScene.lookup("#" + tableButtonName);
+				Button but = (Button) waiterWindowScene.lookup("#" + tableButtonName);
 				but.setStyle("-fx-background-color: #00ff00");
 				tableButtonName = "table";
 			} else {
-				Button but = (Button) createAccountScene.lookup("#" + tableButtonName);
-				if (but.getStyle().equals(isGreen)) {
+				Button but = (Button) waiterWindowScene.lookup("#" + tableButtonName);
+				
+				final boolean isGreen = but.getStyle().equals(green);
+				if (isGreen) {
 					tableButtonName = "table";
 				} else {
 					but.setStyle("-fx-background-color: #f4ff31");

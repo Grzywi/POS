@@ -10,7 +10,8 @@ import java.util.ResourceBundle;
 
 import POS.controller.OrderTable;
 import POS.controller.nameKeeper;
-import connectivity.ConnectionClass;
+import POS.scene.SceneManager;
+import connectivity.ConnectionManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
@@ -28,7 +29,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 public class pizzaMenuController implements Initializable {
 
@@ -40,6 +40,8 @@ public class pizzaMenuController implements Initializable {
 	int suma;
 	int tableCharge;
 
+	private final SceneManager sceneManager = new SceneManager();
+	
 	@FXML
 	Label sumaTextLabel;
 	@FXML
@@ -60,8 +62,7 @@ public class pizzaMenuController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 
-			ConnectionClass connectionClass = new ConnectionClass();
-			Connection connection = connectionClass.getConnection();
+			Connection connection = ConnectionManager.getConnection();
 			data = FXCollections.observableArrayList();
 
 			// checking table orders
@@ -108,13 +109,12 @@ public class pizzaMenuController implements Initializable {
 	@FXML
 	public void handleUsun() throws SQLException {
 
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
+		Connection connection = ConnectionManager.getConnection();
 		data = FXCollections.observableArrayList();
 
 		String deleteTableOrders = "delete from orders WHERE stolikId = '" + tableNumber + "'";
 		PreparedStatement Pstm = connection.prepareStatement(deleteTableOrders);
-		int rss = Pstm.executeUpdate(deleteTableOrders);
+		Pstm.executeUpdate(deleteTableOrders);
 
 		orderTable.setItems(null);
 		orderTable.setItems(data);
@@ -124,9 +124,9 @@ public class pizzaMenuController implements Initializable {
 	}
 
 	@FXML
-	public void handleDrukuj(ActionEvent e) throws SQLException, IOException {
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
+	public void handleDrukuj(final ActionEvent actionEvent) throws SQLException, IOException {
+	
+		Connection connection = ConnectionManager.getConnection();
 		data = FXCollections.observableArrayList();
 
 		String getTableOrders = "select * from orders WHERE stolikId = '" + tableNumber + "'";
@@ -139,11 +139,11 @@ public class pizzaMenuController implements Initializable {
 		String insertIntoClosedOrders = "insert into closedOrders (kelner, stolik, suma) values ('" + waiterId + "',  '"
 				+ tableNumber + "', '" + tableCharge + "')";
 		PreparedStatement pstm = connection.prepareStatement(insertIntoClosedOrders);
-		int resu = pstm.executeUpdate(insertIntoClosedOrders);
+		pstm.executeUpdate(insertIntoClosedOrders);
 
 		String deleteTableOrders = "delete from orders WHERE stolikId = '" + tableNumber + "'";
 		PreparedStatement Pstm = connection.prepareStatement(deleteTableOrders);
-		int rss = Pstm.executeUpdate(deleteTableOrders);
+		Pstm.executeUpdate(deleteTableOrders);
 
 		System.out.println("Suma: " + suma + " PLN");
 
@@ -152,25 +152,19 @@ public class pizzaMenuController implements Initializable {
 		suma = 0;
 		sumaNumberLabel.setText(String.valueOf(suma) + " PLN");
 		
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/waiterWindow.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+		Scene waiterWindowScene = sceneManager.createScene("/waiterWindow.fxml");
+		sceneManager.showStage(actionEvent, waiterWindowScene);
 	}
 
 	@FXML
-	public void handleBack(ActionEvent e) throws IOException {
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/tableView.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+	public void handleBack(final ActionEvent actionEvent) throws IOException {
+		final Scene tableViewScene = sceneManager.createScene("/tableView.fxml");
+		sceneManager.showStage(actionEvent, tableViewScene);
 	}
 
 	public void handlePizza(ActionEvent e) throws SQLException {
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
+	
+		Connection connection = ConnectionManager.getConnection();
 
 		String produkt = ((Labeled) e.getSource()).getText();
 		String productIdQuery = "select * from menu WHERE produkt = '" + produkt + "'";
@@ -191,7 +185,7 @@ public class pizzaMenuController implements Initializable {
 				+ tableNumber + "', '" + productId + "', '" + productPrice + "')";
 
 		PreparedStatement presStatement = connection.prepareStatement(insertQuery);
-		int Rs = presStatement.executeUpdate(insertQuery);
+		presStatement.executeUpdate(insertQuery);
 		data = FXCollections.observableArrayList();
 
 		// checking table orders

@@ -6,19 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import connectivity.ConnectionClass;
+import POS.scene.SceneManager;
+import connectivity.ConnectionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class createAccountController {
+
+	private final SceneManager sceneManager = new SceneManager();
 
 	int pass;
 	int a = 2; // checking actual focus(nameField or pinField)
@@ -48,13 +47,12 @@ public class createAccountController {
 	@FXML
 	public void loginNumber(ActionEvent e) {
 		String digit = ((Labeled) e.getSource()).getText();
-		if(digit.matches(".*\\d+.*")){
-			b=1;
+		if (digit.matches(".*\\d+.*")) {
+			b = 1;
+		} else {
+			b = 2;
 		}
-		else {
-			b=2;
-		}
-		
+
 		if (a == 2 && b == 1) {
 			if (pinField.getLength() < 4) {
 				pinField.appendText(digit);
@@ -81,9 +79,9 @@ public class createAccountController {
 	}
 
 	@FXML
-	public void handleEnter(ActionEvent e) throws SQLException, IOException {
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
+	public void handleEnter(final ActionEvent actionEvent) throws SQLException, IOException {
+
+		Connection connection = ConnectionManager.getConnection();
 
 		int finalPin = Integer.parseInt(pin);
 		String finalName = name;
@@ -106,24 +104,18 @@ public class createAccountController {
 		else {
 			String query2 = "insert INTO kelnerzy (kelner, PIN) VALUES ('" + finalName + "', '" + finalPin + "')";
 			PreparedStatement presStatement = connection.prepareStatement(query2);
-			int Rrs = presStatement.executeUpdate(query2);
+			presStatement.executeUpdate(query2);
 
 			// after successful Account creation the user is taken back to the login window
-			Parent createAccountParent = FXMLLoader.load(getClass().getResource("/FXML/POS.fxml"));
-			Scene createAccountScene = new Scene(createAccountParent);
-			Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-			appStage.setScene(createAccountScene);
-			appStage.show();
+			final Scene posScene = sceneManager.createScene("/FXML/POS.fxml");
+			sceneManager.showStage(actionEvent, posScene);
 		}
 	}
 
 	@FXML
-	public void handleBack(ActionEvent e) throws IOException {
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/FXML/POS.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+	public void handleBack(final ActionEvent actionEvent) throws IOException {
+		final Scene posScene = sceneManager.createScene("/FXML/POS.fxml");
+		sceneManager.showStage(actionEvent, posScene);
 	}
 
 }

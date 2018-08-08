@@ -10,7 +10,8 @@ import java.util.ResourceBundle;
 
 import POS.controller.OrderTable;
 import POS.controller.nameKeeper;
-import connectivity.ConnectionClass;
+import POS.scene.SceneManager;
+import connectivity.ConnectionManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
@@ -38,7 +39,9 @@ public class DessertsMenuController implements Initializable {
 	int productPrice;
 	int suma;
 	int tableCharge;
-
+	
+	private final SceneManager sceneManager = new SceneManager();
+	
 	@FXML
 	Label sumaTextLabel;
 	@FXML
@@ -59,8 +62,7 @@ public class DessertsMenuController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 
-			ConnectionClass connectionClass = new ConnectionClass();
-			Connection connection = connectionClass.getConnection();
+			Connection connection = ConnectionManager.getConnection();
 			data = FXCollections.observableArrayList();
 
 			// checking table orders
@@ -104,23 +106,20 @@ public class DessertsMenuController implements Initializable {
 
 	}
 	
-	public void handleBack(ActionEvent e) throws IOException {
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/tableView.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+	public void handleBack(final ActionEvent actionEvent) throws IOException {
+		final Scene tableViewScene = sceneManager.createScene("/tableView.fxml");
+		sceneManager.showStage(actionEvent, tableViewScene);
 	}
 	
 	
 	public void handleUsun() throws SQLException{
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
+
+		Connection connection = ConnectionManager.getConnection();
 		data = FXCollections.observableArrayList();
 
 		String deleteTableOrders = "delete from orders WHERE stolikId = '" + tableNumber + "'";
 		PreparedStatement Pstm = connection.prepareStatement(deleteTableOrders);
-		int rss = Pstm.executeUpdate(deleteTableOrders);
+		Pstm.executeUpdate(deleteTableOrders);
 
 		orderTable.setItems(null);
 		orderTable.setItems(data);
@@ -128,9 +127,9 @@ public class DessertsMenuController implements Initializable {
 		sumaNumberLabel.setText(String.valueOf(suma) + " PLN");
 	}
 	
-	public void handleDrukuj(ActionEvent e) throws SQLException, IOException {
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
+	public void handleDrukuj(final ActionEvent actionEvent) throws SQLException, IOException {
+		
+		Connection connection = ConnectionManager.getConnection();
 		data = FXCollections.observableArrayList();
 
 		String getTableOrders = "select * from orders WHERE stolikId = '" + tableNumber + "'";
@@ -143,11 +142,11 @@ public class DessertsMenuController implements Initializable {
 		String insertIntoClosedOrders = "insert into closedOrders (kelner, stolik, suma) values ('" + waiterId + "',  '"
 				+ tableNumber + "', '" + tableCharge + "')";
 		PreparedStatement pstm = connection.prepareStatement(insertIntoClosedOrders);
-		int resu = pstm.executeUpdate(insertIntoClosedOrders);
+		pstm.executeUpdate(insertIntoClosedOrders);
 
 		String deleteTableOrders = "delete from orders WHERE stolikId = '" + tableNumber + "'";
 		PreparedStatement Pstm = connection.prepareStatement(deleteTableOrders);
-		int rss = Pstm.executeUpdate(deleteTableOrders);
+		Pstm.executeUpdate(deleteTableOrders);
 
 		System.out.println("Suma: " + suma + " PLN");
 
@@ -156,16 +155,12 @@ public class DessertsMenuController implements Initializable {
 		suma = 0;
 		sumaNumberLabel.setText(String.valueOf(suma) + " PLN");
 		
-		Parent createAccountParent = FXMLLoader.load(getClass().getResource("/waiterWindow.fxml"));
-		Scene createAccountScene = new Scene(createAccountParent);
-		Stage appStage = (Stage) (((Node) e.getSource()).getScene().getWindow());
-		appStage.setScene(createAccountScene);
-		appStage.show();
+		Scene waiterWindowScene = sceneManager.createScene("/waiterWindow.fxml");
+		sceneManager.showStage(actionEvent, waiterWindowScene);
 	}
 	public void handleDessert(ActionEvent e) throws SQLException {
 		
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
+		Connection connection = ConnectionManager.getConnection();
 
 		String produkt = ((Labeled) e.getSource()).getText();
 		String productIdQuery = "select * from menu WHERE produkt = '" + produkt + "'";
@@ -186,7 +181,7 @@ public class DessertsMenuController implements Initializable {
 				+ tableNumber + "', '" + productId + "', '" + productPrice + "')";
 
 		PreparedStatement presStatement = connection.prepareStatement(insertQuery);
-		int Rs = presStatement.executeUpdate(insertQuery);
+		presStatement.executeUpdate(insertQuery);
 		data = FXCollections.observableArrayList();
 
 		// checking table orders
