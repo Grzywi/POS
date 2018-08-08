@@ -1,14 +1,14 @@
-package POS.controller;
+package POS.model;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class myBillsTV {
+public class MyBillTableView {
 
 	private final IntegerProperty charge;
 	private final IntegerProperty tableNumber;	
 	
-	public myBillsTV(int tableNumber, int charge) {
+	public MyBillTableView(int tableNumber, int charge) {
 		this.charge = new SimpleIntegerProperty(charge);
 		this.tableNumber = new SimpleIntegerProperty(tableNumber);
 	}

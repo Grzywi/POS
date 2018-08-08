@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="POS.controller.createAccountController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="POS.controller.CreateAccountController">
    <children>
       <TextField fx:id="pinField" alignment="CENTER" layoutX="226.0" layoutY="81.0" onMouseClicked="#pinFieldClicked" prefHeight="33.0" promptText="PIN..." />
       <TextField fx:id="nameField" alignment="CENTER" layoutX="226.0" layoutY="32.0" onMouseClicked="#nameFieldClicked" prefHeight="33.0" prefWidth="149.0" promptText="Imie..." />

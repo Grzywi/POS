@@ -1,6 +1,6 @@
-package POS.controller;
+package POS.util;
 
-public class nameKeeper {
+public class NameKeeper {
 
 	private static String name;
 	private static int id;
@@ -8,7 +8,7 @@ public class nameKeeper {
 	private static int tableNumber;
 	private static int password;
 	
-	private nameKeeper() {
+	private NameKeeper() {
 	}
 
 	public static String getName() {
@@ -16,20 +16,20 @@ public class nameKeeper {
 	}
 
 	public static void setName(final String name) {
-		nameKeeper.name = name;
+		NameKeeper.name = name;
 	}
 	public static int getId() {
 		return id;
 	}
 	public static void setId(final int id) {
-		nameKeeper.id = id;
+		NameKeeper.id = id;
 	}
 	
 	public static int getTableNumber() {
 		return tableNumber;
 	}
 	public static void setTableNumber(final int tableNumber) {
-		nameKeeper.tableNumber = tableNumber;
+		NameKeeper.tableNumber = tableNumber;
 	}
 	
 	public static int getPassword() {
@@ -37,6 +37,6 @@ public class nameKeeper {
 	}
 	
 	public static void setPassword(final int password) {
-		nameKeeper.password = password;
+		NameKeeper.password = password;
 	}
 }

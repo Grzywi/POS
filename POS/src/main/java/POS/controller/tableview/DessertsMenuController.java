@@ -1,4 +1,4 @@
-package tableViewController;
+package POS.controller.tableview;
 
 import java.io.IOException;
 import java.net.URL;
@@ -8,10 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import POS.controller.OrderTable;
-import POS.controller.nameKeeper;
+import POS.model.OrderTable;
 import POS.scene.SceneManager;
-import connectivity.ConnectionManager;
+import POS.util.NameKeeper;
+import POS.connectivity.ConnectionManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
@@ -32,9 +32,9 @@ import javafx.stage.Stage;
 
 public class DessertsMenuController implements Initializable {
 	
-	String waiterName = nameKeeper.getName();
-	int waiterId = nameKeeper.getId();
-	int tableNumber = nameKeeper.getTableNumber();
+	String waiterName = NameKeeper.getName();
+	int waiterId = NameKeeper.getId();
+	int tableNumber = NameKeeper.getTableNumber();
 	int productId;
 	int productPrice;
 	int suma;

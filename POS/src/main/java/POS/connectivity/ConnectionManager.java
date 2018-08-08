@@ -1,4 +1,4 @@
-package connectivity;
+package POS.connectivity;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConnectionManager {
 
-	public volatile static Connection connection;
+	private volatile static Connection connection;
 
 	private ConnectionManager() {
 	}

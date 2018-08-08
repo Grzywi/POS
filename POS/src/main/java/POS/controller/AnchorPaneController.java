@@ -1,13 +1,15 @@
 package POS.controller;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import POS.constant.ColumnName;
+import POS.constant.DataBaseQuery;
 import POS.scene.SceneManager;
-import connectivity.ConnectionManager;
+import POS.util.NameKeeper;
+import POS.connectivity.ConnectionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -16,93 +18,100 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 
-public class AnchorPaneController {
-	int id;
-	int tableNumber;
-	int waiterId;
-	int password;
+import static POS.constant.ColumnName.WAITER_NAME_COLUMN;
+import static POS.constant.ColumnName.WAITER_ID_COLUMN;;
 
-	String isGreen = "-fx-background-color: #00ff00";
-	String name;
-	String PIN = "";
-	String tableButtonName = "table";
+public class AnchorPaneController {
 
 	private final SceneManager sceneManager = new SceneManager();
+	private final String green = "-fx-background-color: #00ff00";
+	private final String yellow = "-fx-background-color: #f4ff31";
+
+	private int tableNumber;
+	private int waiterId;
+
+	private String name;
+	private String pin = "";
+	private String tableButtonName = "table";
 
 	@FXML
-	Label label = new Label();
+	private Label wrongPinLabel;
 
 	@FXML
-	TextField DisplayField;
+	private TextField pinField;
 
 	public void loginNumber(ActionEvent e) {
-		String digit = ((Labeled) e.getSource()).getText();
-		PIN = PIN.concat(digit);
-		if (DisplayField.getLength() < 4) {
-			DisplayField.appendText("*");
+		final String digit = ((Labeled) e.getSource()).getText();
+		pin = pin.concat(digit);
+		if (pinField.getLength() < 4) {
+			pinField.appendText("*");
 		}
 	}
 
 	public void handleClear() {
-		DisplayField.setText("");
-		PIN = "";
+		pinField.setText("");
+		pin = "";
+		wrongPinLabel.setText("");
 	}
 
 	@FXML
-	public void createAccountScene(final ActionEvent actionEvent) throws IOException {
+	public void createAccountScene(final ActionEvent actionEvent) {
 		final Scene accountScene = sceneManager.createScene("/createAccount.fxml");
 		sceneManager.showStage(actionEvent, accountScene);
 	}
 
 	@FXML
-	public void handleEnter(final ActionEvent actionEvent) throws SQLException, IOException {
+	public void handleEnter(final ActionEvent actionEvent) throws SQLException {
 
-		password = Integer.parseInt(PIN);
-		nameKeeper.setPassword(password);
+		NameKeeper.setPassword(Integer.parseInt(pin));
 
-		String checkWaiter = "select * from kelnerzy WHERE PIN = '" + password + "'";
+		final Connection connection = ConnectionManager.getConnection();
 
-		Connection connection = ConnectionManager.getConnection();
+		final PreparedStatement preStatement = connection.prepareStatement(DataBaseQuery.GET_WAITER);
+		preStatement.setString(1, pin);
+		final ResultSet waiterResult = preStatement.executeQuery();
 
-		PreparedStatement preStatement = connection.prepareStatement(checkWaiter);
-		ResultSet rs = preStatement.executeQuery(checkWaiter);
+		if (!waiterResult.next()) {
+			wrongPinLabel.setText("Niepoprawny PIN");
+			return;
+		} 
+		
+		name = waiterResult.getString(WAITER_NAME_COLUMN);
+		waiterId = waiterResult.getInt(WAITER_ID_COLUMN);
+		System.out.println("zalogowano na konto " + waiterId + " " + name);
+		NameKeeper.setName(waiterResult.getString(WAITER_NAME_COLUMN));
+		NameKeeper.setId(waiterResult.getInt(WAITER_ID_COLUMN));
 
-		if (rs.next()) {
-			name = rs.getString("kelner");
-			waiterId = rs.getInt("id");
-			System.out.println("zalogowano na konto " + waiterId + " " + name);
-			nameKeeper.setName(rs.getString("kelner"));
-			nameKeeper.setId(rs.getInt("id"));
+		final ResultSet currentWaiterOrders = getWaiterResult(DataBaseQuery.GET_CURRENT_WAITER_ORDERS);
+		final ResultSet otherWaitersOrders = getWaiterResult(DataBaseQuery.GET_OTHER_WAITERS_ORDERS);
+		
+		final Scene waiterWindowScene = sceneManager.createScene("/waiterWindow.fxml");
+		sceneManager.showStage(actionEvent, waiterWindowScene);
+		
+		colorTable(waiterWindowScene, currentWaiterOrders, actionEvent, green);
+		colorTable(waiterWindowScene, otherWaitersOrders, actionEvent, yellow);
+	}
 
-			// opening waiters view after successful login
-			Scene waiterWindowScene = sceneManager.createScene("/waiterWindow.fxml");
-			sceneManager.showStage(actionEvent, waiterWindowScene);
+	private ResultSet getWaiterResult(final String query) throws SQLException {
+		final Connection connection = ConnectionManager.getConnection();
+		final PreparedStatement otherWaitersStatement = connection
+				.prepareStatement(query);
+		otherWaitersStatement.setInt(1, waiterId);
+		final ResultSet otherWaitersOrders = otherWaitersStatement.executeQuery();
+		return otherWaitersOrders;
+	}
 
-			String checkOrders = "select * from orders";
+	private void colorTable(final Scene waiterWindowScene, final ResultSet orders, final ActionEvent actionEvent, final String tableColor)
+			throws SQLException {
 
-			PreparedStatement presStatement = connection.prepareStatement(checkOrders);
-			ResultSet Rrs = presStatement.executeQuery(checkOrders);
+		while (orders.next()) {
 
-			while (Rrs.next()) {
-				tableNumber = Rrs.getInt("stolikId");
-				tableButtonName = tableButtonName.concat(String.valueOf(tableNumber));
+			tableNumber = orders.getInt(ColumnName.TABLE_ID_COLUMN);
+			tableButtonName = tableButtonName.concat(String.valueOf(tableNumber));
 
-				if (Rrs.getInt("waiterId") == waiterId) {
-					Button but = (Button) waiterWindowScene.lookup("#" + tableButtonName);
-					but.setStyle("-fx-background-color: #00ff00");
-					tableButtonName = "table";
-				} else {
-					Button but = (Button) waiterWindowScene.lookup("#" + tableButtonName);
-					if (but.getStyle().equals(isGreen)) {
-						tableButtonName = "table";
-					} else {
-						but.setStyle("-fx-background-color: #f4ff31");
-						tableButtonName = "table";
-					}
-				}
-			}
-		} else {
-			label.setText("Niepoprawny PIN");
+			final Button tableButton = (Button) waiterWindowScene.lookup("#" + tableButtonName);
+			tableButton.setStyle(tableColor);
+			tableButtonName = "table";
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package POS.controller;
+package POS.controller.tableview;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -7,16 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import POS.scene.SceneManager;
-import connectivity.ConnectionManager;
+import POS.util.NameKeeper;
+import POS.connectivity.ConnectionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
-public class tableViewController {
+public class TableViewController {
 
 	int tableNumber;
-	int waiterId = nameKeeper.getId();
+	int waiterId = NameKeeper.getId();
 	String tableButtonName = "table";
 	String green = "-fx-background-color: #00ff00";
 

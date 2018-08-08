@@ -1,4 +1,4 @@
-package projekt;
+package POS;
 
 import java.sql.SQLException;
 
@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class POS extends Application {
+public class PosApplication extends Application {
 	
 	public static void main(String[] args) throws SQLException {
 		launch(args);

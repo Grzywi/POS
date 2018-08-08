@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="POS.controller.waiterWindowController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="POS.controller.WaiterWindowController">
    <children>
       <Label fx:id="waitersName" layoutX="14.0" layoutY="7.0" prefHeight="35.0" prefWidth="65.0" />
       <Button fx:id="table1" layoutX="139.0" layoutY="117.0" mnemonicParsing="false" onAction="#handleTable" text="1" />

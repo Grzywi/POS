@@ -8,8 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import POS.model.MyBillTableView;
 import POS.scene.SceneManager;
-import connectivity.ConnectionManager;
+import POS.util.NameKeeper;
+import POS.connectivity.ConnectionManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,29 +24,29 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class waiterWindowController implements Initializable {
+public class WaiterWindowController implements Initializable {
 
 	@FXML
 	Label waitersName;
 
 	String tableButtonName = "table";
 	int tableNumber;
-	int waiterId = nameKeeper.getId();
+	int waiterId = NameKeeper.getId();
 
 	@FXML
-	private TableView<myBillsTV> myBills;
+	private TableView<MyBillTableView> myBills;
 	@FXML
-	private TableColumn<myBillsTV, Integer> columnTable;
+	private TableColumn<MyBillTableView, Integer> columnTable;
 	@FXML
-	private TableColumn<myBillsTV, Integer> columnCharge;
+	private TableColumn<MyBillTableView, Integer> columnCharge;
 
-	private ObservableList<myBillsTV> data;
+	private ObservableList<MyBillTableView> data;
 
 	private final SceneManager sceneManager = new SceneManager();
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		waitersName.setText(nameKeeper.getName() + "\n" + "id: " + nameKeeper.getId());
+		waitersName.setText(NameKeeper.getName() + "\n" + "id: " + NameKeeper.getId());
 		try {
 
 			Connection connection = ConnectionManager.getConnection();
@@ -55,7 +57,7 @@ public class waiterWindowController implements Initializable {
 			ResultSet res = prStatement.executeQuery(checkTable);
 
 			while (res.next()) {
-				data.add(new myBillsTV(res.getInt("stolik"), res.getInt("suma")));
+				data.add(new MyBillTableView(res.getInt("stolik"), res.getInt("suma")));
 			}
 
 		} catch (Exception e) {
@@ -84,7 +86,7 @@ public class waiterWindowController implements Initializable {
 		final Scene tableViewScene = sceneManager.createScene("/tableView.fxml");
 		sceneManager.showStage(actionEvent, tableViewScene);
 
-		nameKeeper.setTableNumber(Integer.parseInt(((Labeled) actionEvent.getSource()).getText()));
+		NameKeeper.setTableNumber(Integer.parseInt(((Labeled) actionEvent.getSource()).getText()));
 	}
 
 	public void handleLogOut(final ActionEvent actionEvent) throws IOException {

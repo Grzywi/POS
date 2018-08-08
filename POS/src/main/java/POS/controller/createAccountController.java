@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import POS.scene.SceneManager;
-import connectivity.ConnectionManager;
+import POS.connectivity.ConnectionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 
-public class createAccountController {
+public class CreateAccountController {
 
 	private final SceneManager sceneManager = new SceneManager();
 

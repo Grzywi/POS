@@ -1,4 +1,4 @@
-package tableViewController;
+package POS.controller.tableview;
 
 import java.io.IOException;
 import java.net.URL;
@@ -8,10 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import POS.controller.OrderTable;
-import POS.controller.nameKeeper;
+import POS.model.OrderTable;
 import POS.scene.SceneManager;
-import connectivity.ConnectionManager;
+import POS.util.NameKeeper;
+import POS.connectivity.ConnectionManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
@@ -30,16 +30,16 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-public class DrinksMenuController implements Initializable {
+public class PizzaMenuController implements Initializable {
 
-	String waiterName = nameKeeper.getName();
-	int waiterId = nameKeeper.getId();
-	int tableNumber = nameKeeper.getTableNumber();
+	String waiterName = NameKeeper.getName();
+	int waiterId = NameKeeper.getId();
+	int tableNumber = NameKeeper.getTableNumber();
 	int productId;
 	int productPrice;
 	int suma;
 	int tableCharge;
-	
+
 	private final SceneManager sceneManager = new SceneManager();
 	
 	@FXML
@@ -125,7 +125,7 @@ public class DrinksMenuController implements Initializable {
 
 	@FXML
 	public void handleDrukuj(final ActionEvent actionEvent) throws SQLException, IOException {
-
+	
 		Connection connection = ConnectionManager.getConnection();
 		data = FXCollections.observableArrayList();
 
@@ -162,8 +162,8 @@ public class DrinksMenuController implements Initializable {
 		sceneManager.showStage(actionEvent, tableViewScene);
 	}
 
-	public void handleDrink(ActionEvent e) throws SQLException {
-		
+	public void handlePizza(ActionEvent e) throws SQLException {
+	
 		Connection connection = ConnectionManager.getConnection();
 
 		String produkt = ((Labeled) e.getSource()).getText();

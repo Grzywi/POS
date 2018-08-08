@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="POS.controller.tableViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="POS.controller.tableview.TableViewController">
    <children>
       <Button layoutX="35.0" layoutY="154.0" mnemonicParsing="false" onAction="#pizzaMenu" prefHeight="70.0" prefWidth="70.0" text="Pizza" AnchorPane.bottomAnchor="176.0" AnchorPane.rightAnchor="438.0" />
       <Button layoutX="265.0" layoutY="154.0" mnemonicParsing="false" onAction="#dessertsMenu" prefHeight="70.0" prefWidth="70.0" text="Desery" AnchorPane.bottomAnchor="176.0" AnchorPane.rightAnchor="265.0" />
